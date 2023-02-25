@@ -1,0 +1,35 @@
+{
+  "name": "anomalyce/pai18n",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Anomalyce",
+      "email": "47085833+anomalyce@users.noreply.github.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/anomalyce/pai18n/issues",
+    "source": "https://github.com/anomalyce/pai18n",
+    "wiki": "https://github.com/anomalyce/pai18n/wiki"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Anomalyce\\Pai18n\\": "src/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Anomalyce\\Pai18n\\Providers\\Pai18nServiceProvider"
+      ]
+    }
+  }
+}

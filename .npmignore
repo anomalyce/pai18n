@@ -1,0 +1,8 @@
+/config
+/routes
+/src
+/views
+/node_modules
+/vendor
+package-lock.json
+composer.lock

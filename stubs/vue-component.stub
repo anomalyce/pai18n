@@ -1,0 +1,7 @@
+<translation>
+  This is the expanded JS :translation key, with parameters.
+
+  <template #translation>
+    <strong> i18n </strong>
+  </template>
+</translation>

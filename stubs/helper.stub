@@ -1,0 +1,11 @@
+<?php
+echo __('This is the PHP :translation key, with parameters.', [
+  'translation' => 'i18n',
+]);
+?>
+
+<div>
+  {{ __('This is the JS :translation key, with parameters.', {
+    translation: 'i18n',
+  }) }}
+</div>
