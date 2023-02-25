@@ -125,7 +125,7 @@ class Pai18nScanCommand extends Command
     $translations = function ($path, array $params = []) use ($fallback) {
       $items = trans($path, $params, $fallback, true);
 
-      return $items !== $path ? $path : [];
+      return $items !== $path ? $items : [];
     };
 
     $messages = Arr::dot([
