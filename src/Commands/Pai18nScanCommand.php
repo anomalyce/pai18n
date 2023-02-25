@@ -122,12 +122,18 @@ class Pai18nScanCommand extends Command
   {
     $fallback = app()->getFallbackLocale();
 
+    $translations = function ($path, array $params = []) use ($fallback) {
+      $items = trans($path, $params, $fallback, true);
+
+      return $items !== $path ? $path : [];
+    };
+
     $messages = Arr::dot([
-      'auth'        => trans('auth', [], $fallback, true),
-      'pagination'  => trans('pagination', [], $fallback, true),
-      'password'    => trans('password', [], $fallback, true),
-      'validation'  => trans('validation', [], $fallback, true),
-      ...trans('*', [], $fallback, true),
+      'auth'        => $translations('auth'),
+      'pagination'  => $translations('pagination'),
+      'password'    => $translations('password'),
+      'validation'  => $translations('validation'),
+      ...$translations('*'),
     ]);
 
     $messages = array_filter($messages, fn ($x) => ! is_array($x));
