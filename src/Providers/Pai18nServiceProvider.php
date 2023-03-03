@@ -16,8 +16,8 @@ class Pai18nServiceProvider extends AggregateServiceProvider
    */
   public function boot()
   {
-    Blade::directive('pai18n', function ($string) {
-      return "<?php echo app('pai18n')->generateHtml(); ?>";
+    Blade::directive('pai18n', function ($expression) {
+      return "<?php echo app('pai18n')->generateHtml($expression); ?>";
     });
   }
 
@@ -35,9 +35,11 @@ class Pai18nServiceProvider extends AggregateServiceProvider
         protected array $locales;
 
         public function __construct(protected $app) {
+          $locales = (array) config('pai18n.locales', []);
+
           $this->locale = $this->app->getLocale();
           $this->fallbackLocale = $this->app->getFallbackLocale();
-          $this->locales = array_unique([$this->fallbackLocale]);
+          $this->locales = array_unique(array_merge($locales, [$this->fallbackLocale]));
         }
 
         protected function getTranslations(string $path, ?string $locale = null): array
@@ -58,27 +60,29 @@ class Pai18nServiceProvider extends AggregateServiceProvider
           return $messages;
         }
 
-        public function toArray(): array {
+        public function toArray(array $locales = []): array {
+          $this->locales = array_unique(array_merge($this->locales, $locales));
+
           return [
             'locale' => $this->locale,
             'translations' => $this->getMessages(),
           ];
         }
 
-        public function toJson(): string {
-          return json_encode($this->toArray(), JSON_UNESCAPED_UNICODE);
+        public function toJson(array $locales = []): string {
+          return json_encode($this->toArray($locales), JSON_UNESCAPED_UNICODE);
         }
 
-        public function generateJavaScript() {
+        public function generateJavaScript(array $locales = []) {
           return <<<JS
-            const pai18n = {$this->toJson()};
+            const pai18n = {$this->toJson($locales)};
           JS;
         }
 
-        public function generateHtml() {
+        public function generateHtml(...$locales) {
           return <<<HTML
             <script>
-              {$this->generateJavaScript()}
+              {$this->generateJavaScript($locales)}
             </script>
           HTML;
         }
