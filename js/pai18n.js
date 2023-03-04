@@ -25,6 +25,7 @@ export const usePai18n = () => {
 
   return {
     locale: options?.locale,
+    locales: options?.locales,
     translations: options?.translations,
     translate: (...args) => Reflect.apply(translate, undefined, [options, ...args]),
     __: (...args) => Reflect.apply(translate, undefined, [options, ...args]),
@@ -37,6 +38,7 @@ export const createPai18n = {
 
     app.provide('pai18n', {
       locale,
+      locales: options.locales,
       translations: options.translations,
     })
   }

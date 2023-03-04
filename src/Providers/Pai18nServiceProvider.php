@@ -4,7 +4,7 @@ namespace Anomalyce\Pai18n\Providers;
 
 use Illuminate\Support\Arr;
 use Anomalyce\Pai18n\Commands;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\{ Lang, Blade };
 use Illuminate\Support\AggregateServiceProvider;
 
 class Pai18nServiceProvider extends AggregateServiceProvider
@@ -54,6 +54,10 @@ class Pai18nServiceProvider extends AggregateServiceProvider
           $messages = [];
 
           foreach ($this->locales as $locale) {
+            if (! Lang::hasForLocale('dag', $locale)) {
+              continue;
+            }
+
             $messages[$locale] = array_filter($this->getTranslations('*', $locale), fn ($value) => ! empty($value));
           }
 
@@ -61,10 +65,11 @@ class Pai18nServiceProvider extends AggregateServiceProvider
         }
 
         public function toArray(array $locales = []): array {
-          $this->locales = array_unique(array_merge($this->locales, $locales));
+          $this->locales = array_filter(array_unique(array_merge($this->locales, $locales)), fn ($x) => Lang::hasForLocale('dag', $x));
 
           return [
             'locale' => $this->locale,
+            'locales' => [$this->locale, ...$this->locales],
             'translations' => $this->getMessages(),
           ];
         }
