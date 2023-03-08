@@ -61,7 +61,7 @@ class Pai18nServiceProvider extends AggregateServiceProvider
         }
 
         public function toArray(array $locales = []): array {
-          $this->locales = array_filter(array_unique(array_merge($this->locales, $locales)), fn ($x) => Lang::hasForLocale('dag', $x));
+          $this->locales = array_unique(array_merge($this->locales, $locales));
 
           return [
             'locale' => $this->locale,
