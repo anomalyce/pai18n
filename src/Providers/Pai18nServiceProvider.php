@@ -54,10 +54,6 @@ class Pai18nServiceProvider extends AggregateServiceProvider
           $messages = [];
 
           foreach ($this->locales as $locale) {
-            if (! Lang::hasForLocale('dag', $locale)) {
-              continue;
-            }
-
             $messages[$locale] = array_filter($this->getTranslations('*', $locale), fn ($value) => ! empty($value));
           }
 
